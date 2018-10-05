@@ -33,7 +33,7 @@ namespace
         
         // Fitted polynomial coefficients
         FG_eval(Eigen::VectorXd inCoeffs) :
-        coeffs(inCoeffs)
+            coeffs(inCoeffs)
         {
             
         }
