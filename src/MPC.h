@@ -11,6 +11,8 @@ public:
     MPC();
     ~MPC();
     
+    static double GetLf();
+    
     // Solve the model given an initial state and polynomial coefficients
     //
     // This will return the first actuations.
