@@ -5,51 +5,54 @@
 
 using CppAD::AD;
 
-// TODO: Set the timestep length and duration
-size_t N = 0;
-double dt = 0;
-
-// This value assumes the model presented in the classroom is used
-//
-// It was obtained by measuring the radius formed by running the vehicle in the
-// simulator around in a circle with a constant steering angle and velocity on a
-// flat terrain.
-//
-// Lf was tuned until the the radius formed by the simulating the model
-// presented in the classroom matched the previous radius.
-//
-// This is the length from front to CoG that has a similar radius.
-const double Lf = 2.67;
-
-class FG_eval
+namespace
 {
-public:
+    // TODO: Set the timestep length and duration
+    size_t N = 0;
+    double dt = 0;
     
-    typedef CPPAD_TESTVECTOR(AD<double>) ADvector;
+    // This value assumes the model presented in the classroom is used
+    //
+    // It was obtained by measuring the radius formed by running the vehicle in the
+    // simulator around in a circle with a constant steering angle and velocity on a
+    // flat terrain.
+    //
+    // Lf was tuned until the the radius formed by the simulating the model
+    // presented in the classroom matched the previous radius.
+    //
+    // This is the length from front to CoG that has a similar radius.
+    const double Lf = 2.67;
     
-    // Fitted polynomial coefficients
-    FG_eval(Eigen::VectorXd inCoeffs) :
-        coeffs(inCoeffs)
+    class FG_eval
     {
+    public:
         
-    }
-    
-    void operator()(ADvector& fg, const ADvector& vars)
-    {
-        // TODO: Implement MPC
-        //
-        // `fg` is a vector of the cost constraints
-        // `vars` is a vector of variable values (state & actuators)
-        //
-        // NOTE: We'll probably go back and forth between this function and
-        // the Solver function below.
-    }
-    
-private:
-    
-    // Fitted polynomial coefficients
-    Eigen::VectorXd coeffs;
-};
+        typedef CPPAD_TESTVECTOR(AD<double>) ADvector;
+        
+        // Fitted polynomial coefficients
+        FG_eval(Eigen::VectorXd inCoeffs) :
+        coeffs(inCoeffs)
+        {
+            
+        }
+        
+        void operator()(ADvector& fg, const ADvector& vars)
+        {
+            // TODO: Implement MPC
+            //
+            // `fg` is a vector of the cost constraints
+            // `vars` is a vector of variable values (state & actuators)
+            //
+            // NOTE: We'll probably go back and forth between this function and
+            // the Solver function below.
+        }
+        
+    private:
+        
+        // Fitted polynomial coefficients
+        Eigen::VectorXd coeffs;
+    };
+}
 
 //
 // MPC class implementation
@@ -64,7 +67,7 @@ MPC::~MPC()
     
 }
 
-vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs)
+std::vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs)
 {
     typedef CPPAD_TESTVECTOR(double) Dvector;
     
