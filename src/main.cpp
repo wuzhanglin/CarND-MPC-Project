@@ -56,7 +56,7 @@ namespace
     double polyeval(Eigen::VectorXd coeffs, double x)
     {
         double result = 0.0;
-        for (size_t i = 0; i < coeffs.size(); i++)
+        for (int i = 0; i < coeffs.size(); i++)
         {
             result += coeffs[i] * pow(x, i);
         }
@@ -73,12 +73,12 @@ namespace
         assert(order >= 1 && order <= xvals.size() - 1);
         
         Eigen::MatrixXd A(xvals.size(), order + 1);
-        for (size_t i = 0; i < xvals.size(); i++)
+        for (int i = 0; i < xvals.size(); i++)
         {
             A(i, 0) = 1.0;
         }
         
-        for (size_t j = 0; j < xvals.size(); j++)
+        for (int j = 0; j < xvals.size(); j++)
         {
             for (int i = 0; i < order; i++)
             {
@@ -188,7 +188,6 @@ int main()
                     // Display the MPC predicted trajectory
                     vector<double> mpc_x_vals;
                     vector<double> mpc_y_vals;
-                    
                     for (size_t i = 2; i < vars.size(); i++ )
                     {
                         if (i % 2 == 0)
@@ -203,16 +202,14 @@ int main()
                     
                     // .. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
                     // the points in the simulator are connected by a Green line
-                    
                     msgJson["mpc_x"] = mpc_x_vals;
                     msgJson["mpc_y"] = mpc_y_vals;
                     
                     // Display the waypoints/reference line
                     vector<double> next_x_vals;
                     vector<double> next_y_vals;
-                    
                     double poly_inc = 2.5;
-                    int num_points = 25;
+                    const size_t num_points = 25;
                     for (size_t i = 0; i < num_points; i++)
                     {
                         double x = poly_inc * i;
@@ -222,10 +219,8 @@ int main()
                     
                     // .. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
                     // the points in the simulator are connected by a Yellow line
-                    
                     msgJson["next_x"] = next_x_vals;
                     msgJson["next_y"] = next_y_vals;
-                    
                     auto msg = "42[\"steer\"," + msgJson.dump() + "]";
                     cout << "Data Sent: " << msg << endl;
                     
