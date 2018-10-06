@@ -179,6 +179,13 @@ int main()
                     
                     double steer_value = vars[0] / deg2rad(25);
                     double throttle_value = vars[1];
+                    
+                    // Slow down the car a little bit when the steering angle is big
+                    //
+                    // When turn a car that is running on the road, the slower the car is,
+                    // the more effect the steering angle will have. So, when we want do a
+                    // big turn, we should slow down the car a little bit so that the turn
+                    // can really take effect.
                     throttle_value = throttle_value / (1.0 + fabs(steer_value));
                     
                     json msgJson;
