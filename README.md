@@ -56,3 +56,23 @@ Here in this project, we use the following settings:
 ## Coding Style
 
 Please (do our best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
+
+## Test the MPC
+
+### Start the Simulator
+
+Here is the start view of the simulator:
+
+![Start View of the Simulator](README-images/start.png)
+
+(Note: Click the "Select" button to start the simulation)
+
+### Start the PID Controller
+
+Run the `./pid`, and here is the output:
+```
+Listening to port 4567
+Connected!!!
+```
+
+which means the our MPC has connected to the simulator successfully.
