@@ -65,11 +65,11 @@ Here is the start view of the simulator:
 
 ![Start View of the Simulator](README-images/start.png)
 
-(Note: Click the "Select" button to start the simulation)
+(Note: Click the "Select" button to start the simulation.)
 
-### Start the PID Controller
+### Start the MPC Controller
 
-Run the `./pid`, and here is the output:
+Run the `./mpc`, and here is the output:
 ```
 Listening to port 4567
 Connected!!!
