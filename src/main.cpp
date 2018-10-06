@@ -133,7 +133,7 @@ int main()
                     
                     // Preprocessing
                     //
-                    // Transform waypoints coordinates to the cars coordinates
+                    // Transform the waypoints coordinates to the cars coordinates
                     size_t n_waypoints = ptsx.size();
                     auto ptsx_transformed = Eigen::VectorXd(n_waypoints);
                     auto ptsy_transformed = Eigen::VectorXd(n_waypoints);
@@ -142,15 +142,15 @@ int main()
                         double dX = ptsx[i] - px;
                         double dY = ptsy[i] - py;
                         double minus_psi = 0.0 - psi;
-                        ptsx_transformed( i ) = dX * cos(minus_psi) - dY * sin(minus_psi);
-                        ptsy_transformed( i ) = dX * sin(minus_psi) + dY * cos(minus_psi);
+                        ptsx_transformed(i) = dX * cos(minus_psi) - dY * sin(minus_psi);
+                        ptsy_transformed(i) = dX * sin(minus_psi) + dY * cos(minus_psi);
                     }
                     
-                    // Fit polynomial to the points - 3rd order
+                    // Fit polynomial to the points using third order
                     auto coeffs = polyfit(ptsx_transformed, ptsy_transformed, 3);
                     
                     // Actuator delay in milliseconds
-                    const int actuatorDelay =  100;
+                    const int actuatorDelay = 100;
                     
                     // Actuator delay in seconds
                     const double delay = actuatorDelay / 1000.0;
