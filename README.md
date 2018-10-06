@@ -63,7 +63,7 @@ Please (do our best to) stick to [Google's C++ style guide](https://google.githu
 
 Here is the start view of the simulator:
 
-![Start View of the Simulator](README-images/start.png)
+![Start View of the Simulator](./README-images/start.png)
 
 (Note: Click the "Select" button to start the simulation.)
 
@@ -79,7 +79,7 @@ which means the our MPC has connected to the simulator successfully.
 
 ### Simulation
 
-The MPC program can successfully drive the car for more than one lap around the track. And, this is a short video recording on the driving: [./README-videos/MPC.mov](./README-videos/MPC.mov).
+The MPC program can successfully drive the car for more than one lap around the track. And, this is a short video recording on the driving: [README-videos/MPC.mov](./README-videos/MPC.mov).
 
 And, here is a snapshot on the execution log of the MPC program in the terminal:
 ```
@@ -249,9 +249,9 @@ The objective is to find the correct acceleration `a` and the steering angle `de
 
 | Factor | Description |
 | :----- | :---------- |
-| Square sum of `cte` and `epsi` | See the code in [./src/MPC.cpp](./src/MPC.cpp#L56) from line 56 to line 61 |
-| Square sum of the difference actuators | To penalize actuator's actions, see the code in [./src/MPC.cpp](./src/MPC.cpp#L64) from line 64 to line 68 |
-| Square sum of the difference between two consecutive actuators | To penalize sharp changes, see the code in [./src/MPC.cpp](./src/MPC.cpp#L72) from line 72 to line 76 |
+| Square sum of `cte` and `epsi` | See the code in [src/MPC.cpp](./src/MPC.cpp#L56) from line 56 to line 61 |
+| Square sum of the difference actuators | To penalize actuator's actions, see the code in [src/MPC.cpp](./src/MPC.cpp#L64) from line 64 to line 68 |
+| Square sum of the difference between two consecutive actuators | To penalize sharp changes, see the code in [src/MPC.cpp](./src/MPC.cpp#L72) from line 72 to line 76 |
 
 The weights of all above factors are manually tuned so that we can successfully drive the car on the track without going off the road.
 
@@ -263,7 +263,7 @@ The number of points `N` and the time interval `dt` define the prediction horizo
 
 Here are the steps for the MPC preprocessing and polynomial fitting:
 
-**Step 1**. Transform the waypoints (provided by the simulator) to the car coordinate system, see the code in [./src/main.cpp](./src/main.cpp#L134) from line 134 to line 147
+**Step 1**. Transform the waypoints (provided by the simulator) to the car coordinate system, see the code in [src/main.cpp](./src/main.cpp#L134) from line 134 to line 147
 
 **Step 2**. Calculate the polynomial coefficients by fitting a third-degree polynomial to the transformed waypoints
 
@@ -273,4 +273,4 @@ They are used by the solver as well to create a reference trajectory.
 
 ### MPC with Latency
 
-There is a latency in the actuator, so we can't use the initial state values. In order to handle that, the state values are calculated using the model and the delay interval, which are used for later processing instead of the initial state values. See the code in [./src/main.cpp](./src/main.cpp#L152) from line 152 to line 171.
+There is a latency in the actuator, so we can't use the initial state values. In order to handle that, the state values are calculated using the model and the delay interval, which are used for later processing instead of the initial state values. See the code in [src/main.cpp](./src/main.cpp#L152) from line 152 to line 171.
