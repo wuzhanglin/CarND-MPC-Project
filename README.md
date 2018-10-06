@@ -196,3 +196,81 @@ Data Sent: {
 }
 ... ...
 ```
+
+## The MPC Implementation
+
+### The MPC Model
+
+The model used here for the MPC is a Kinematic model without considering the complex interactions between the tires and the road. The equations of this model are as follows:
+
+    ```
+    x[t] = x[t-1] + v[t-1] * cos(psi[t-1]) * dt
+    y[t] = y[t-1] + v[t-1] * sin(psi[t-1]) * dt
+    psi[t] = psi[t-1] + v[t-1] / Lf * delta[t-1] * dt
+    v[t] = v[t-1] + a[t-1] * dt
+    cte[t] = f(x[t-1]) - y[t-1] + v[t-1] * sin(epsi[t-1]) * dt
+    epsi[t] = psi[t] - psides[t-1] + v[t-1] * delta[t-1] / Lf * dt
+    ```
+
+And here are the descriptions on the parameters:
+
+#### Model State Parameters
+
+These model state parameters are considered the state of the model:
+
+| Model State Parameter | Description |
+| :-------------------- | :---------- |
+| `(x, y)` | Position of the car |
+| `psi` | Heading direction of the car |
+| `v` | Velocity of the car |
+| `cte` | Cross-track error |
+| `epsi` | Orientation error |
+
+#### Constant Parameters
+
+The constant parameter is provided by Udacity's courses and seed project:
+
+| Constant Parameter | Description |
+| :----------------- | :---------- |
+| `Lf` | The distance between the mass and the front wheels of the car |
+
+#### Model Output Parameters
+
+These parameters are the output of the model:
+
+| Model Output | Description |
+| :----------- | :---------- |
+| `a` | Acceleration (throttle) of the car |
+| `delta` | Steering angle of the car |
+
+#### Tuning the Acceleration and Steering Angle
+
+The objective is to find the correct acceleration `a` and the steering angle `delta` which will minimize an objective function that is the combination of these different factors:
+
+| Factor | Description |
+| :----- | :---------- |
+| Square sum of `cte` and `epsi` | See the [code](./src/MPC.cpp#L56) |
+| Square sum of the difference actuators | To penalize actuator's actions, see the [code](./src/MPC.cpp#L64) |
+| Square sum of the difference between two consecutive actuators | To penalize sharp changes, see the [code](./src/MPC.cpp#L72) |
+
+The weights of all above factors are manually tuned so that we can successfully drive the car on the track without going off the road.
+
+### Timestep Length and Elapsed Duration (N & dt)
+
+The number of points `N` and the time interval `dt` define the prediction horizon. The number of points has an impact on the controller performance as well. I tried to keep the horizon around the same time the waypoints were on the simulator. With too many points the controller starts to run slower, and sometimes it went wild very easily. After trying with `N` from 10 to 20 and `dt` 100 to 500 milliseconds, I decided to leave them fixed to 10 and 100 milliseconds to have a better result tuning the other parameters.
+
+### MPC Preprocessing and Polynomial Fitting
+
+Here are the steps for the MPC preprocessing and polynomial fitting:
+
+**Step 1**. Transform the waypoints (provided by the simulator) to the car coordinate system, see the code in [./src/main.cpp](./src/main.cpp#L134) from line 134 to line 147
+
+**Step 2**. Calculate the polynomial coefficients by fitting a third-degree polynomial to the transformed waypoints
+
+**Step 3**. Calculate the `cte` and `epsi` using the polynomial coefficients
+
+They are used by the solver as well to create a reference trajectory.
+
+### MPC with Latency
+
+There is a latency in the actuator, so we can't use the initial state values. In order to handle that, the state values are calculated using the model and the delay interval, which are used for later processing instead of the initial state values. See the code in [./src/main.cpp](./src/main.cpp#L152) from line 152 to line 171.
