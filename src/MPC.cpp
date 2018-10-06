@@ -278,7 +278,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs)
     
     // Cost
     auto cost = solution.obj_value;
-    cout << "Cost: " << cost << endl;
+    cout << endl << "Cost: " << cost << endl;
     
     // TODO: Return the first actuator values. The variables can be accessed with
     // `solution.x[i]`.

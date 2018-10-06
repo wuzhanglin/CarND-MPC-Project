@@ -104,13 +104,14 @@ int main()
         // The 4 signifies a websocket message
         // The 2 signifies a websocket event
         string sdata = string(data).substr(0, length);
-        cout << "Data Received: " << sdata << endl;
         if (sdata.size() > 2 && sdata[0] == '4' && sdata[1] == '2')
         {
             string s = hasData(sdata);
             if (s != "")
             {
                 auto j = json::parse(s);
+                cout << "_____________________" << endl << "Data Received: " << j.dump(4) << endl;
+                
                 string event = j[0].get<string>();
                 if (event == "telemetry")
                 {
@@ -178,6 +179,7 @@ int main()
                     
                     double steer_value = vars[0] / deg2rad(25);
                     double throttle_value = vars[1];
+                    throttle_value = throttle_value / (1.0 + fabs(steer_value));
                     
                     json msgJson;
                     // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
@@ -222,7 +224,7 @@ int main()
                     msgJson["next_x"] = next_x_vals;
                     msgJson["next_y"] = next_y_vals;
                     auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-                    cout << "Data Sent: " << msg << endl;
+                    cout << endl << "Data Sent: " << msgJson.dump(4) << endl;
                     
                     // Latency
                     //
