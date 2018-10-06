@@ -203,14 +203,14 @@ Data Sent: {
 
 The model used here for the MPC is a Kinematic model without considering the complex interactions between the tires and the road. The equations of this model are as follows:
 
-    ```
-    x[t] = x[t-1] + v[t-1] * cos(psi[t-1]) * dt
-    y[t] = y[t-1] + v[t-1] * sin(psi[t-1]) * dt
-    psi[t] = psi[t-1] + v[t-1] / Lf * delta[t-1] * dt
-    v[t] = v[t-1] + a[t-1] * dt
-    cte[t] = f(x[t-1]) - y[t-1] + v[t-1] * sin(epsi[t-1]) * dt
-    epsi[t] = psi[t] - psides[t-1] + v[t-1] * delta[t-1] / Lf * dt
-    ```
+```
+x[t] = x[t-1] + v[t-1] * cos(psi[t-1]) * dt
+y[t] = y[t-1] + v[t-1] * sin(psi[t-1]) * dt
+psi[t] = psi[t-1] + v[t-1] / Lf * delta[t-1] * dt
+v[t] = v[t-1] + a[t-1] * dt
+cte[t] = f(x[t-1]) - y[t-1] + v[t-1] * sin(epsi[t-1]) * dt
+epsi[t] = psi[t] - psides[t-1] + v[t-1] * delta[t-1] / Lf * dt
+```
 
 And here are the descriptions on the parameters:
 
@@ -249,9 +249,9 @@ The objective is to find the correct acceleration `a` and the steering angle `de
 
 | Factor | Description |
 | :----- | :---------- |
-| Square sum of `cte` and `epsi` | See the [code](./src/MPC.cpp#L56) |
-| Square sum of the difference actuators | To penalize actuator's actions, see the [code](./src/MPC.cpp#L64) |
-| Square sum of the difference between two consecutive actuators | To penalize sharp changes, see the [code](./src/MPC.cpp#L72) |
+| Square sum of `cte` and `epsi` | See the code in [./src/MPC.cpp](./src/MPC.cpp#L56) from line 56 to line 61 |
+| Square sum of the difference actuators | To penalize actuator's actions, see the code in [./src/MPC.cpp](./src/MPC.cpp#L64) from line 64 to line 68 |
+| Square sum of the difference between two consecutive actuators | To penalize sharp changes, see the code in [./src/MPC.cpp](./src/MPC.cpp#L72) from line 72 to line 76 |
 
 The weights of all above factors are manually tuned so that we can successfully drive the car on the track without going off the road.
 
