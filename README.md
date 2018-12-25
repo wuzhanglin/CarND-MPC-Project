@@ -1,6 +1,6 @@
 # Self-Driving Car Project 10. Model Predictive Control (MPC)
 
-# Overview
+## Overview
 
 This project implements a [Model Predictive Controller (MPC)](https://en.wikipedia.org/wiki/Model_predictive_control) to control a car in the simulator (which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)). The simulator sends car telemetry information (here is the [data specifications](./DATA.md)) to the MPC using [WebSocket](https://en.wikipedia.org/wiki/WebSocket) and receives the steering angle and throttle from the MPC. The MPC uses the [uWebSockets](https://github.com/uNetworking/uWebSockets) WebSocket implementation to handle the communication.
 
